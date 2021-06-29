@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book {{ one_book.id }}</title>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="header">
+            <h1>Welcome, {{ name }}!</h1>
+            <a href="/logout">Log Out</a>
+        </div>
+        <div id="main">
+            <div class="box">
+                {% if one_book.uploaded_by.id == id %}
+                    <form action="/update/{{one_book.id}}" method="POST">
+                    {% csrf_token %}
+                    <h1 class="tborder">
+                    <input type="text" name="title" value="{{ one_book.title }}"></h1><br>
+                        {% for message in messages %}
+                            {% if message.tags == 'title error' %}
+                                <span style="color: red">{{ message }}</span>
+                            {% endif %}
+                        {% endfor %}<br><br>
+                    Added by: {{ one_book.uploaded_by.first_name }} {{ one_book.uploaded_by.last_name }}<br>
+                    Added on: {{ one_book.created_at }}<br>
+                    Last updated on: {{ one_book.updated_at }}<br>
+                    <textarea id="post" name="desc" rows="5" cols="40">{{ one_book.desc }}</textarea><br><br>
+                        {% for message in messages %}
+                            {% if message.tags == 'desc error' %}
+                                <span style="color: red">{{ message }}</span>
+                            {% endif %}
+                        {% endfor %}<br><br>
+                    <input type="submit" value="Update">
+                    </form>
+                {% endif %}
+
+                {% if one_book.uploaded_by.id != id %}
+                    <h1 class="tborder">{{ one_book.title }}</h1>
+                    Added by: {{ one_book.uploaded_by.first_name }} {{ one_book.uploaded_by.last_name }}<br>
+                    Added on: {{ one_book.created_at }}<br>
+                    Last updated on: {{ one_book.updated_at }}<br>
+                    Description: {{ one_book.desc }}<br><br>
+                {% endif %}
+
+
+            </div>
+            <div class="box">
+                Favorited by: 
+                {% for oneperson in one_book.likes.all %}
+                    {{ oneperson.first_name }} {{ oneperson.last_name }} |
+                    {% if oneperson.id == id %}
+                        <a href="/unfav/{{one_book.id}}/{{id}}"> Unlike </a>
+                    {% endif %}
+                {% endfor %}
+                <br><br>
+                {% if one_book.uploaded_by.id == id %}
+                    <a href="/delete/{{one_book.id}}">Delete</a>
+                {% endif %}
+
+                <br><br>
+                <a href="/books">Back</a>
+            </div>
+                <!-- {% if not one_book.likes.all %}
+                    {% if oneperson.id == id %}
+                        <a href="/fav/{{one_book.id}}/{{id}}"> Like </a>
+                    {% endif %}
+                {% endif %}
+                <br><br>
+                MIIITTCHHHHH! HALLLPPP
+                -->
+        </div>
+    </div>
+</body>
+</html>

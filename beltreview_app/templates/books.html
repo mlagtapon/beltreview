@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div id="wrapper">
+        <div id="header">
+            <h1>Welcome, {{ name }}!</h1>
+            <a href="/logout">Log Out</a>
+        </div>
+        <hr>
+        <div id="main">
+            <div class="box">
+                <h2>Recent Book Reviews:</h2><br>
+                {% for book in allbook %}
+                    <a href="/books/{{book.id}}">{{ book.title }}</a><br>
+                    Rating:
+                    {% if book.ratings.count > 0 %}
+                        <p>Favorites: {{ book.likes.count }}</p>
+                    {% endif %}<br>
+                    <a href="">{{ book.author.first_name }}</a> says: {{ book.review }}<br>
+                    <br>
+                    {{ book.created_at }}
+                {% endfor %}
+                <br>
+            </div>
+            <div class="box">
+                <h2> Other Books with Reviews </h2>
+                {% for book in allbooks %}
+                    <textarea id="post" name="desc" rows="5" cols="40"><a href="/books/{{book.id}}">{{ book.title }}</a><br></textarea><br><br>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

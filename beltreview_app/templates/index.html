@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorite Books</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+    <div id="wrapper">
+        <h1>Welcome!</h1>
+        <div class="box">
+            <form action="/register" method="post">
+                {% csrf_token %}
+                <h2>Registration</h2>
+                <div class="spaces">First Name:<input type="text" name="first_name"></div>
+                {% for message in messages %}
+                    {% if message.tags == 'first_name error' %}
+                        <span style="color: red">{{ message }}</span>
+                    {% endif %}
+                {% endfor %}<br>
+                <div class="spaces">Last Name:<input type="text" name="last_name"></div>
+                {% for message in messages %}
+                    {% if message.tags == 'last_name error' %}
+                        <span style="color: red">{{ message }}</span>
+                    {% endif %}
+                {% endfor %}<br>
+                <div class="spaces">Email:<input type="text" name="email"></div>
+                {% for message in messages %}
+                    {% if message.tags == 'email error' %}
+                        <span style="color: red">{{ message }}</span>
+                    {% endif %}
+                {% endfor %}<br>
+                <div class="spaces">Password:<input type="text" name="password"></div>
+                {% for message in messages %}
+                    {% if message.tags == 'password error' %}
+                    <span style="color: red">{{ message }}</span>
+                    {% endif %}
+                {% endfor %}<br>
+                <div class="spaces">Confirm Password:<input type="text" name="confirm"></div>
+                {% for message in messages %}
+                    {% if message.tags == 'confirm error' %}
+                        <span style="color: red">{{ message }}</span>
+                    {% endif %}
+                {% endfor %}<br>
+                <input type="submit" id="done" value="Register">
+            </form>
+        </div>
+        <div class="box">
+            <form action="/login" method="post">
+                {% csrf_token %}
+                <h2>Login</h2>
+                <div class="spaces">Email:<input type="text" name="email_login"></div>
+                {% for message in messages %}
+                    {% if message.tags == 'login error' %}
+                        <span style="color: red">{{ message }}</span>
+                    {% endif %}
+                {% endfor %}<br>
+                <div class="spaces">Password:<input type="text" name="password_login"></div>
+                {% for message in messages %}
+                    {% if message.tags == 'login error' %}
+                        <span style="color: red">{{ message }}</span>
+                    {% endif %}
+                {% endfor %}<br>
+                <input type="submit" id="done" value="Login">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
